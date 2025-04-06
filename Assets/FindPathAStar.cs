@@ -112,24 +112,20 @@ public class FindPathAStar : MonoBehaviour
             GameObject pathblock = Instantiate(pathP, new Vector3(neighbour.x * maze.scale, 0, neighbour.z * maze.scale),
                                                Quaternion.identity);
             TextMesh[] values = pathblock.GetComponentsInChildren<TextMesh>();
-            values[0].text = "G :" + G.ToString("0.00");
-            values[1].text = "H :" + H.ToString("0.00");
-            values[2].text = "F :" + F.ToString("0.00");
+            values[0].text = "G:" + G.ToString("0.00");
+            values[1].text = "H:" + H.ToString("0.00");
+            values[2].text = "F:" + F.ToString("0.00");
             if (!updateMarker(neighbour, G, H, F, thisnode))
-            {
                 open.Add(new PathMarker(neighbour, G, H, F, pathblock, thisnode));
-            }
-            open = open.OrderBy(p => p.F).ToList<PathMarker>();
-            PathMarker pm = (PathMarker)open.ElementAt(0);
-            closed.Add(pm);
-
-            open.RemoveAt(0);
-            pm.marker.GetComponent<Renderer>().material = closedmaterial;
-            lastpos = pm;
-
-
-
+            
         }
+        open = open.OrderBy(p => p.F).ToList<PathMarker>();
+        PathMarker pm = (PathMarker)open.ElementAt(0);
+        closed.Add(pm);
+
+        open.RemoveAt(0);
+        pm.marker.GetComponent<Renderer>().material = closedmaterial;
+        lastpos = pm;
     }
     bool updateMarker(MapLocation pos , float g, float h, float f, PathMarker prt)
     {
